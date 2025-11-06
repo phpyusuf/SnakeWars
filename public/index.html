@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Serpents</title>
+    <style>
+        :root {
+            --primary: #52fcd3;
+            --accent: #f1ff6b;
+            --bg: #050712;
+            --panel: rgba(5, 10, 25, 0.75);
+            --text: #f3f7ff;
+        }
+        html, body {
+            margin: 0;
+            height: 100%;
+            background: radial-gradient(circle at top, #09123a 0%, #04040a 70%, #020205 100%);
+            color: var(--text);
+            font-family: "Segoe UI", Tahoma, sans-serif;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: #04060f;
+        }
+        #hud {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+        }
+        .card {
+            pointer-events: none;
+            background: var(--panel);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(82, 252, 211, 0.15);
+            border-radius: 12px;
+            padding: 12px 16px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+        }
+        #leaderboard {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            width: 200px;
+        }
+        #leaderboard h2 {
+            margin: 0 0 8px;
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        #leaderboard-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 6px;
+        }
+        #leaderboard-list li {
+            font-size: 0.85rem;
+            color: rgba(243, 247, 255, 0.8);
+            padding: 4px 8px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.03);
+        }
+        #leaderboard-list li.me {
+            color: var(--primary);
+            background: rgba(82, 252, 211, 0.12);
+            font-weight: 600;
+        }
+        #score-card {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            min-width: 180px;
+            text-align: left;
+        }
+        #score-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 4px;
+        }
+        #score-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-shadow: 0 0 12px rgba(241, 255, 107, 0.6);
+        }
+        #status {
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            min-height: 1rem;
+        }
+        #energy-card {
+            position: absolute;
+            bottom: 36px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(420px, 80vw);
+            pointer-events: none;
+        }
+        #energy-bar {
+            width: 100%;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 999px;
+            overflow: hidden;
+            border: 1px solid rgba(82, 252, 211, 0.25);
+        }
+        #energy-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff7b4a, #ffca6c, #52fcd3);
+            box-shadow: 0 0 12px rgba(82, 252, 211, 0.45);
+            transition: width 0.15s ease;
+        }
+        #energy-label {
+            display: block;
+            margin-top: 8px;
+            text-align: center;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+            color: rgba(255, 255, 255, 0.65);
+        }
+        #help {
+            position: absolute;
+            bottom: 24px;
+            left: 24px;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        #help strong {
+            color: var(--primary);
+        }
+        @media (max-width: 768px) {
+            #leaderboard {
+                width: 160px;
+                top: 16px;
+                right: 16px;
+            }
+            #score-card {
+                top: 16px;
+                left: 16px;
+            }
+            #energy-card {
+                bottom: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+    <div id="hud">
+        <div id="leaderboard" class="card">
+            <h2>Top Snakes</h2>
+            <ol id="leaderboard-list"></ol>
+        </div>
+        <div id="score-card" class="card">
+            <div id="score-label">Uzunluk</div>
+            <div id="score-value">0</div>
+            <div id="status">Hazırsın!</div>
+        </div>
+        <div id="energy-card" class="card">
+            <div id="energy-bar">
+                <div id="energy-fill"></div>
+            </div>
+            <span id="energy-label">Boost için boşluk tuşunu basılı tut</span>
+        </div>
+        <div id="help">Mouse ile yönlendir, <strong>Space</strong> ile hızlan</div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>
